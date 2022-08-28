@@ -141,14 +141,14 @@ class Solution {
                 } else {
                     minh = height[left];
                 }
-                ++left;
+                left++;
             } else {
                 if (minh > height[right]) {
                     sum += minh - height[right];
                 } else {
                     minh = height[right];
                 }
-                --right;
+                right--;
             }
         }
         return sum;
@@ -161,14 +161,19 @@ For the sides of mountain, we can just record the localMax of both sides as `min
 
 one index from left, as `left`, another index form right, as `right`, once they get meet, we stop.
 
-one first to compare value of these two, as `height[left]` and `height[right]`, and to deal with lower one. For the lower value one, we assume it is `height[left]`, we can know that left is definitely not in the part 3, then we compare it with `minh`, 
+one first to compare value of these two, as `height[left]` and `height[right]`, and to deal with lower one. As you can see, lower one will move in the end of each loop, as `left++` or `right--`. now We called it 
+
+>low move, high stay
+
+For the lower value one, we assume it is `height[left]`, we can know that left is definitely not in the part 3, then we compare it with `minh`, 
+
 - case 1: `height[left] > minh`, then we have height[right] > height[left] > minh, as localMax, minh is too low so need to be updated at least with `minh = height[left]`. Then move on left with `left++`
 
-- case 2: `height[left] < minh`, then we know minh is produced by left, as `minh = height[left - someIndex]` somewhere, implied as `minh = max(leftSides)`. Otherwise if max(rightSides) = minh > max(leftSides), the index of minh in right will not move as right--. So we have `minh - height[left]` to add on, then move on with `left++`
+- case 2: `height[left] < minh`, then we know minh is produced by left, as `minh = height[left - someIndex]` somewhere, implied as `minh = max(leftSides)`. Otherwise if max(rightSides) = minh > max(leftSides), the index of minh in right will not move by rule of "low move, high stay". So we have `minh - height[left]` to add on, then move on with `left++`
 
 - case 3: height[left] == minh, then nothing to do but move on with `left++`
 
 
-Yes there are `height[left] == height[right]` needed to be dicussion. Since we know there at least one, we call it as right by assume without losing genearity, has height[right] >= minh. So height[left] == height[right] >= minh, then we choose as case 2 or 3, then move on with `left++`, now we may in pouring part 1 or part 2, but if think of peak as one way of localMax, they are the same way to process.
+Yes there are `height[left] == height[right]` needed to be dicussion. Since we know there at least one, as rule of "low move, high stay", has height[right](or height[left]) >= minh. So height[left] == height[right] >= minh, then we choose as case 2 or 3, then move on with `left++`, now we may in pouring part 1 or part 2, but if think of peak as one kind of localMax, they are the same way to process.
 
 
