@@ -132,7 +132,7 @@ To reverse each part can be taken out to be a function to increase readability. 
 ---
 
 ## **Final Solution**
-
+```
 class Solution {
     public void reverse(ListNode st, ListNode end)
     {
@@ -171,6 +171,56 @@ class Solution {
         return end;
     }
 }
+```
+
+## Explain:
+if `length` of node list `n` has `n / k == 0`, we have
+```
+while(inc--!=0){
+    end = end.next;
+    if(end == null)
+    {
+        return head;
+    }
+    }
+```
+to return the original
+
+If n / k > 0, we use recursive as 
+```
+ListNode node = reverseKGroup(end.next, k);
+reverse(st, end);
+st.next = node;
+```
+
+To cut the first k nodes off the n, then redo the test as `(n - k) / k ?= 0` , and keep doing that until `n / k == 0`
+
+and of course we have 
+```
+if(head == null || k == 1)
+{
+    return head;
+}
+```
+to take care of case if `n == 0` or `n == k`
+
+As we have `n / k == 0`, we keep it as it is, as remain 
 
 
+And reverse the part is given by
+```
+public void reverse(ListNode st, ListNode end){
+    ListNode curr = st;
+    ListNode prev = null;
+    ListNode next = null;
+    while(prev != end)
+    {
+    next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+    }
+}
+```
+ `remain` or `null` as `remain`. We reconnect by `st.next = node;`
 
