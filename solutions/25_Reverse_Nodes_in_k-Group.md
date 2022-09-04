@@ -101,8 +101,8 @@ for(int i = 0; i < tailList.size(); i++){
             next = nextNext;
             if(nextNext != null){
                 nextNext = nextNext.next;
+            }
         }
-    }
 }
 ```
 
@@ -120,3 +120,57 @@ for(int i = 0; i < tailList.size() - 1; i++){
     tailList.get(i).next = headList.get(i + 1);
 }
 ```
+and connect remain as
+```
+tailList.get(tailList.size() - 1).next = remain;
+```
+
+
+## optimization thought
+To reverse each part can be taken out to be a function to increase readability. To store node in the headList and tailList is using O(n) memeory. To cutting whole list into part using recursive can same many work
+
+---
+
+## **Final Solution**
+
+class Solution {
+    public void reverse(ListNode st, ListNode end)
+    {
+      ListNode curr = st;
+      ListNode prev = null;
+      ListNode next = null;
+      while(prev != end)
+      {
+        next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+      }
+    }
+    public ListNode reverseKGroup(ListNode head, int k) 
+    {
+      if(head == null || k == 1)
+      {
+        return head;
+      }
+      ListNode st = head;
+      ListNode end = head;
+      int inc = k-1;
+      while(inc--!=0)
+      {
+        end = end.next;
+        if(end == null)
+        {
+          return head;
+        }
+      }
+      ListNode node = reverseKGroup(end.next, k);
+      reverse(st, end);
+      st.next = node;
+      
+        return end;
+    }
+}
+
+
+
